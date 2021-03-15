@@ -128,7 +128,7 @@ public class CommandManager {
                     break;
                 case "remove_key":
                     try {
-                        CommandRemoveKey.remove_key(man, Long.valueOf(command[1]));//ИЛИ ОСТАВИТЬ STRING
+                        CommandRemoveKey.remove_key(man, Long.valueOf(command[1]));
                     } catch (NumberFormatException e) {
                         System.out.println("Wrong format of entering.");
                     }

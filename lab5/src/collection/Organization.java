@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 /**
  * Class that represents Organization objects
  */
-public class Organization {
+public class Organization implements Comparable<Organization>{
     private Long id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
@@ -18,9 +18,9 @@ public class Organization {
 
     /**
      * Constructor that createsOrganization objects
-     * @param id
-     * @param name
-     * @param coordinates
+     * @param id - id of organization
+     * @param name - name of organization
+     * @param coordinates - coordinates of organization
      * @param creationDate
      * @param annualTurnover
      * @param fullName
@@ -182,6 +182,16 @@ public class Organization {
      */
     public Address getPostalAddress() {
         return postalAddress;
+    }
+
+    /**
+     * method implements Comparable<Organization>
+     * and compares two classes
+     * @param org - organization
+     * @return int
+     */
+    public int compareTo(Organization org){
+        return name.substring(0, 1).compareTo(org.getName().substring(0, 1));
     }
 
     @Override

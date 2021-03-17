@@ -9,11 +9,18 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
-
+/**
+ * Class that works with file and collection
+ */
 public class FileManager {
     File fileCollection = new File(System.getenv("FilePath"));
     Hashtable<Long, Organization> collection = new Hashtable<>();
 
+    /**
+     * method that loads collection from file
+     * @param filePath
+     * @throws FileNotFoundException
+     */
     public void loadCollection(String filePath) throws FileNotFoundException {
 
         try {
@@ -47,7 +54,11 @@ public class FileManager {
 
     }
 
-    public boolean  save(Hashtable<Long, Organization> collection) {
+    /**
+     * method that saves collection in file
+     * @param collection - hashtable
+     */
+    public void  save(Hashtable<Long, Organization> collection) {
         Gson gson = new Gson();
         if (!fileCollection.exists()) {
             System.out.println(("Невозможно сохранить файл. Файл по указанному пути (" + fileCollection.getAbsolutePath() + ") не существует."));
@@ -57,7 +68,7 @@ public class FileManager {
 
             try{
                 System.out.println(fileCollection.getAbsolutePath());
-                fileCollection.createNewFile();
+
                 FileWriter fileWriter = new FileWriter(fileCollection);
                 String stringColl = gson.toJson(collection);
 
@@ -66,12 +77,12 @@ public class FileManager {
                 fileWriter.flush();
                 fileWriter.close();
                 System.out.println("Файл успешно сохранён.");
-                return true;
+
             } catch (Exception ex) {
                 System.out.println("При записи файла что-то пошло не так.");
             }
         }
-        return false;
+
     }
 
     public  Hashtable<Long, Organization> getCollection() {
@@ -82,10 +93,30 @@ public class FileManager {
         return fileCollection.getAbsolutePath();
     }
 
+    /**
+     * method that sorts collection
+     * @param collection - hashtable
+     */
+    public void sort(Hashtable<Long, Organization> collection){
+        List<Long> sortedKeys = Collections.list(collection.keys());
+        Collections.sort(sortedKeys);
+        Iterator<Long> iterator = sortedKeys.iterator();
+
+        Hashtable<Long, Organization> collection_new = new Hashtable<>();
+        while(iterator.hasNext()){
+            Long element =iterator.next();
+
+            collection_new.put(element, collection.get(element));
+
+        }
+
+        this.collection = collection_new;
+    }
+
     @Override
     public String toString() {
         return "Information about collection:\n" +
                 "File path:" + fileCollection.getAbsolutePath() + "\n" +
-                "Type of collection: " + collection.getClass().toString(); //РАЗОБРАТЬСЯ С ВЫВОДОМ ТИПА КОЛЛЕКЦИИ
+                "Type of collection: " + collection.getClass().toString();
     }
 }
